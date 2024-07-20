@@ -31,32 +31,33 @@ export default function Table({
   onClickHeader,
 }: Readonly<TableProps>) {
   return (
-    <div className={styles["search-container"]}>
-      <div className={styles["search-container__input-wrapper"]}>
-        <input
-          className={styles["search-container__input"]}
-          type="text"
-          placeholder="Buscar"
-        />
-      </div>
-      <div className={styles["search-container__table-wrapper"]}>
-        <table className={styles["search-container__table"]}>
-          <thead className={styles["search-container__table-head"]}>
-            <tr>
+    <div className={styles["table-container"]}>
+      <div className={styles["table-container__table-wrapper"]}>
+        <table className={styles["table-container__table"]}>
+          <thead className={styles["table-container__table-head"]}>
+            <tr className={styles["table-container__table-row"]}>
               {headers.map((header) => (
-                <th key={header.target}>{header.label}</th>
+                <th
+                  className={styles["table-container__table-header"]}
+                  key={header.target}
+                >
+                  {header.label}
+                </th>
               ))}
             </tr>
           </thead>
-          <tbody>
+          <tbody className={styles["table-container__table-body"]}>
             {items.map((item) => (
-              <tr key={item.id}>
+              <tr
+                key={item.id}
+                className={styles["table-container__table-row"]}
+              >
                 {headers.map((header: Header, index: number) => {
                   if (header.type === "date") {
                     return (
                       <td
                         key={`${index} ${header.label}`}
-                        className={styles.contentItem}
+                        className={styles["table-container__table-data"]}
                       >
                         <div className={styles.item}>
                           {moment(item[header.target]).format(
@@ -70,7 +71,7 @@ export default function Table({
                     return (
                       <td
                         key={`${index} ${header.label}`}
-                        className={styles.contentItem}
+                        className={styles["table-container__table-data"]}
                       >
                         {header.format ? (
                           <div className={styles.item}>
@@ -87,7 +88,7 @@ export default function Table({
                   return (
                     <td
                       key={`${index} ${header.label}`}
-                      className={styles.contentItem}
+                      className={styles["table-container__table-data"]}
                     >
                       <div className={styles.item}>{item[header.target]}</div>
                     </td>

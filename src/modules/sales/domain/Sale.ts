@@ -3,7 +3,7 @@ export interface Sale {
   status: string;
   paymentMethod: string;
   salesType: string;
-  createdAt: number;
+  createdAt: string;
   transactionReference: number;
   amount: number;
   franchise: string;

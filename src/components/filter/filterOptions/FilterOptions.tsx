@@ -10,7 +10,7 @@ export default function FilterOptions({
   options,
   handleOptions,
 }: Readonly<FilterProps>) {
-  const [clickedIndex, setClickedIndex] = useState<number>(0);
+  const [clickedIndex, setClickedIndex] = useState<number>(2);
 
   const handleClick = (index: number) => {
     setClickedIndex(index);

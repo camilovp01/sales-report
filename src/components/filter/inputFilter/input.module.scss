@@ -1,0 +1,21 @@
+.search-container {
+  &__input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  &__icon {
+    color: var(--light-grey-secondary-color);
+  }
+
+  &__input {
+    width: 100%;
+    font-family: inherit;
+    height: 60px;
+    outline: none;
+    border: none;
+    font-size: 1rem;
+  }
+}

@@ -1,3 +1,5 @@
+"use client";
+
 import Card from "@/components/card/Card";
 import Filter from "@/components/filter/Filter";
 import Table, { Header } from "@/components/table/Table";
@@ -6,6 +8,8 @@ import { Sale } from "@/modules/sales/domain/Sale";
 import { SaleRepository } from "@/modules/sales/domain/Sale.repository";
 import { SaleApiRepository } from "@/modules/sales/infraestructure/SaleApiRepository";
 
+import InputFilter from "@/components/filter/inputFilter/InputFilter";
+import { useEffect, useState } from "react";
 import styles from "./page.module.scss";
 
 const getSales = async (): Promise<Sale[]> => {
@@ -20,14 +24,35 @@ const getSales = async (): Promise<Sale[]> => {
 
 const header: Header[] = [
   { label: "Transacción", target: "status" },
-  { label: "Fecha y Hora", target: "createdAt", type: "date" },
+  { label: "Fecha y Hora", target: "createdAt" },
   { label: "Método de Pago", target: "paymentMethod" },
   { label: "ID Transacción", target: "id" },
   { label: "Monto", target: "amount", type: "currency" },
 ];
 
-export default async function SalesPage() {
-  const sales = await getSales();
+export default function SalesPage() {
+  const [salesFiltered, setSalesFiltered] = useState<Sale[]>([]);
+  const [sales, setSales] = useState<Sale[]>([]);
+
+  const searchSales = (value: string) => {
+    if (!sales) {
+      return;
+    }
+    const lowerCaseValue = value.toLowerCase();
+    const salesFilterResult = sales.filter((sale) => {
+      return Object.values(sale).some((value) =>
+        value.toString().toLowerCase().includes(lowerCaseValue),
+      );
+    });
+    setSalesFiltered(salesFilterResult);
+  };
+
+  useEffect(() => {
+    getSales().then((sales) => {
+      setSalesFiltered(sales);
+      setSales(sales);
+    });
+  }, []);
 
   return (
     <>
@@ -40,7 +65,8 @@ export default async function SalesPage() {
         <Filter></Filter>
       </div>
       <Card title={`Tus Ventas de`}>
-        <Table headers={header} items={sales}></Table>
+        <InputFilter onChange={searchSales}></InputFilter>
+        <Table headers={header} items={salesFiltered}></Table>
       </Card>
     </>
   );
