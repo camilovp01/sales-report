@@ -1,29 +1,32 @@
 "use client";
 
 import Card from "@/components/card/Card";
-import Filter, { FilterProps } from "@/components/filter/Filter";
-import Table, { Header } from "@/components/table/Table";
+import Filter from "@/components/filter/Filter";
+import Table from "@/components/table/Table";
 import getAll from "@/modules/sales/application/getAll";
 import { Sale } from "@/modules/sales/domain/Sale";
 import { SaleRepository } from "@/modules/sales/domain/Sale.repository";
 import { SaleApiRepository } from "@/modules/sales/infraestructure/SaleApiRepository";
 
-import CheckboxFilter, {
-  FilterCheckboxProps,
-} from "@/components/filter/checkboxFilter/CheckboxFilter";
+import CheckboxFilter from "@/components/filter/checkboxFilter/CheckboxFilter";
 import InputFilter from "@/components/filter/inputFilter/InputFilter";
+import {
+  checkboxFilter,
+  headers,
+  principalFilterOptions,
+} from "@/constants/constants";
 import dateComparison from "@/utils/dateComparison";
-import { formatClpSymbol } from "@/utils/formatCurrency";
 import moment from "moment";
 import "moment/locale/es";
 import { createContext, useEffect, useMemo, useState } from "react";
 import styles from "./page.module.scss";
 
 moment.locale("es");
-const currentMonth = moment().format("MMMM");
-const capitalizedMonth =
-  currentMonth.charAt(0).toUpperCase() + currentMonth.slice(1);
 
+const currentMonth = moment().format("MMMM");
+export const capitalizedMonth =
+  currentMonth.charAt(0).toUpperCase() + currentMonth.slice(1);
+principalFilterOptions.options.currentMonth = capitalizedMonth;
 export const AppContext = createContext({
   changeFilter: (value: string) => {},
 });
@@ -37,45 +40,6 @@ const getSales = async (): Promise<Sale[]> => {
     throw new Error("Error al obtener las ventas");
   }
 };
-
-const principalFilterOptions: FilterProps = {
-  options: {
-    currentDay: "Hoy",
-    currentWeek: "Esta semana",
-    currentMonth: capitalizedMonth,
-  },
-};
-
-const checkboxFilter: FilterCheckboxProps = {
-  options: {
-    paymentLink: "Cobro con link de pago",
-    terminal: "Cobro con datáfono",
-    all: "Ver todos",
-  },
-};
-
-const headers: Header[] = [
-  {
-    label: "Transacción",
-    target: "status",
-    type: "transaction",
-    fieldToValidateIcon: "salesType",
-  },
-  { label: "Fecha y Hora", target: "createdAt" },
-  {
-    label: "Método de Pago",
-    target: "paymentMethod",
-    type: "paymentMethod",
-    fieldToValidateIcon: "franchise",
-  },
-  { label: "ID Transacción", target: "id" },
-  {
-    label: "Monto",
-    target: "amount",
-    type: "currency",
-    format: formatClpSymbol,
-  },
-];
 
 export default function SalesPage() {
   const [salesFiltered, setSalesFiltered] = useState<Sale[]>([]);

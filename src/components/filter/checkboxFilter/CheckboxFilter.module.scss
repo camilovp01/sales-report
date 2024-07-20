@@ -33,12 +33,27 @@
       position: absolute;
       background: white;
       padding: 1rem;
-      width: 180px;
       top: 0;
       right: 0;
+      gap: 0.5rem;
     }
     &__close {
+      display: flex;
       text-align: end;
+      justify-content: space-between;
+    }
+    &__title {
+      width: 100%;
+      text-align: center;
+    }
+    &__option {
+      min-width: 200px;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      font-size: var(--secondary-font-size);
+      color: var(--blue-color);
+      font-weight: 500;
     }
   }
 }

@@ -31,6 +31,9 @@ export default function CheckboxFilter({
       {showFilter && (
         <div className={styles["container__wrapper__options"]}>
           <div className={styles["container__wrapper__close"]}>
+            <div className={styles["container__wrapper__title"]}>
+              <p>Filtrar</p>
+            </div>
             <X
               size={16}
               className={styles["container__wrapper__icon"]}
@@ -38,7 +41,7 @@ export default function CheckboxFilter({
             />
           </div>
           {values.map((value, i) => (
-            <div key={value}>
+            <div key={value} className={styles["container__wrapper__option"]}>
               <input type="checkbox" id={value} />
               <label htmlFor={value}>{value}</label>
             </div>
