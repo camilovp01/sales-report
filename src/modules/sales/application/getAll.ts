@@ -4,7 +4,7 @@ import { SaleRepository } from "../domain/Sale.repository";
 import { StatusType } from "../domain/StatusType";
 
 export default async function getAll(
-  salesRepository: SaleRepository
+  salesRepository: SaleRepository,
 ): Promise<Sale[]> {
   const sales = await salesRepository.getAll();
   return sales.map((item: Sale) => {

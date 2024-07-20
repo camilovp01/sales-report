@@ -2,7 +2,7 @@ import moment from "moment";
 
 export default function dateComparison(
   dateString: string,
-  criteria: string
+  criteria: string,
 ): boolean {
   const date = moment(dateString, "DD/MM/YYYY - HH:mm:ss");
 

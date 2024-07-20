@@ -164,7 +164,7 @@ export default function SalesPage() {
       if (searchValue) {
         const searchStr = searchValue.toString().toLowerCase();
         matchesSearch = Object.values(sale).some((value) =>
-          value.toString().toLowerCase().includes(searchStr)
+          value.toString().toLowerCase().includes(searchStr),
         );
       }
       return isWithinTimeFrame && matchesSearch;

@@ -127,7 +127,7 @@ export default function Table({
                       >
                         <div>
                           {moment(item[header.target]).format(
-                            "DD/MM/YYYY hh:mm:ss"
+                            "DD/MM/YYYY hh:mm:ss",
                           )}
                         </div>
                       </td>
@@ -189,7 +189,7 @@ export default function Table({
                             {header?.fieldToValidateIcon
                               ? renderIconSwitch(
                                   item[header.target],
-                                  item[header?.fieldToValidateIcon]
+                                  item[header?.fieldToValidateIcon],
                                 )
                               : renderIconSwitch(item[header.target])}
                           </span>
