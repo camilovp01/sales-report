@@ -1,0 +1,22 @@
+@import "../styles/mixins.scss";
+
+.main {
+  padding: 1rem;
+  background: var(--background-color);
+  min-height: 100vh;
+
+  &__options {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1rem;
+    @include medium {
+      flex-direction: row;
+    }
+    &__card__container {
+      width: 100%;
+      @include medium {
+        max-width: 500px;
+      }
+    }
+  }
+}

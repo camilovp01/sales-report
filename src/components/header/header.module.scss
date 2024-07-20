@@ -1,0 +1,14 @@
+@import "../../styles/mixins.scss";
+
+.header {
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background: var(--linear-gradient);
+  .options {
+    display: flex;
+    gap: 1rem;
+    color: var(--light-grey-color);
+  }
+}

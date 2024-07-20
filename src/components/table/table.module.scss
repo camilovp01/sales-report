@@ -1,0 +1,38 @@
+.search-container {
+  &__input-wrapper {
+  }
+  &__input {
+  }
+
+  &__table-wrapper {
+  }
+}
+
+.search-container .search-container__table {
+  width: 100%;
+  border-collapse: collapse;
+  /* Otros estilos de la tabla */
+}
+
+.search-container__table-head {
+  /* Estilos para el thead de la tabla */
+}
+
+.search-container__table-body {
+  /* Estilos para el tbody de la tabla */
+}
+
+.search-container__table-row {
+  /* Estilos para las filas de la tabla */
+}
+
+.search-container__table-header {
+  background-color: #f2f2f2;
+  /* Otros estilos para los encabezados */
+}
+
+.search-container__table-data {
+  border: 1px solid #ddd;
+  padding: 8px;
+  /* Otros estilos para las celdas de datos */
+}

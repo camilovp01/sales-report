@@ -1,0 +1,16 @@
+@import "../../styles/mixins.scss";
+
+.container {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 1rem;
+  @include medium {
+    flex-direction: row;
+  }
+  &__card {
+    width: 100%;
+    @include medium {
+      max-width: 500px;
+    }
+  }
+}
