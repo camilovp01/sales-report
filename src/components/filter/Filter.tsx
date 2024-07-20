@@ -8,17 +8,11 @@ export interface FilterProps {
   handleOptions: (() => void)[];
 }
 export default function Filter() {
-  const handleCurrentDay = () => {
-    console.log("Today is called");
-  };
+  const handleCurrentDay = () => {};
 
-  const handleCurrentWeek = () => {
-    console.log("Today is called");
-  };
+  const handleCurrentWeek = () => {};
 
-  const handleCurrentMonth = () => {
-    console.log("Today is called");
-  };
+  const handleCurrentMonth = () => {};
   return (
     <div className={styles.filter}>
       <FilterOptions
