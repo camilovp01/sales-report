@@ -1,28 +1,45 @@
 "use client";
 
+import useAppContext from "@/hooks/useAppContext";
+import { useState } from "react";
 import styles from "./filter.module.scss";
-import FilterOptions from "./filterOptions/FilterOptions";
 
 export interface FilterProps {
-  options: string[];
-  handleOptions: (() => void)[];
+  options: {
+    currentDay: string;
+    currentWeek: string;
+    currentMonth: string;
+  };
 }
-export default function Filter() {
-  const handleCurrentDay = () => {};
 
-  const handleCurrentWeek = () => {};
+export default function Filter({ options }: Readonly<FilterProps>) {
+  const [clickedIndex, setClickedIndex] = useState<string>();
+  const { changeFilter } = useAppContext();
+  const values = Object.values(options);
+  const keys = Object.keys(options);
 
-  const handleCurrentMonth = () => {};
+  const handleClick = (option: string) => {
+    if (clickedIndex === option) {
+      setClickedIndex("");
+      changeFilter("");
+      return;
+    }
+    setClickedIndex(option);
+    changeFilter(option);
+  };
   return (
     <div className={styles.filter}>
-      <FilterOptions
-        options={["Hoy", "Esta semana", "Junio"]}
-        handleOptions={[
-          handleCurrentDay,
-          handleCurrentWeek,
-          handleCurrentMonth,
-        ]}
-      ></FilterOptions>
+      {values.map((value, i) => (
+        <button
+          key={value}
+          onClick={() => handleClick(keys[i])}
+          className={`${styles.button} ${
+            clickedIndex === keys[i] ? styles["button--active"] : ""
+          }`}
+        >
+          {value}
+        </button>
+      ))}
     </div>
   );
 }

@@ -2,6 +2,9 @@
   &__table {
     width: 100%;
     border-collapse: collapse;
+    &__currency {
+      min-width: 100px;
+    }
   }
 
   &__table-row {
@@ -22,6 +25,11 @@
 
   &__table-data {
     padding: 1rem;
+    color: var(--blue-color);
+  }
+
+  &__icon {
+    color: var(--blue-color);
   }
 
   &__table-wrapper {
