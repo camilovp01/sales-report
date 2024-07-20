@@ -1,38 +1,38 @@
-.search-container {
-  &__input-wrapper {
+.table-container {
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    &__currency {
+      min-width: 100px;
+    }
   }
-  &__input {
+
+  &__table-row {
+    border: 2px solid var(--light-grey-secondary-color);
+  }
+
+  &__table-header {
+    font-weight: 500;
+    text-align: left;
+    padding: 0.5rem 1rem;
+  }
+
+  &__table-body {
+    & > tr:nth-child(even) {
+      border-left: 2px solid var(--blue-color);
+    }
+  }
+
+  &__table-data {
+    padding: 1rem;
+    color: var(--blue-color);
+  }
+
+  &__icon {
+    color: var(--blue-color);
   }
 
   &__table-wrapper {
+    overflow: auto;
   }
-}
-
-.search-container .search-container__table {
-  width: 100%;
-  border-collapse: collapse;
-  /* Otros estilos de la tabla */
-}
-
-.search-container__table-head {
-  /* Estilos para el thead de la tabla */
-}
-
-.search-container__table-body {
-  /* Estilos para el tbody de la tabla */
-}
-
-.search-container__table-row {
-  /* Estilos para las filas de la tabla */
-}
-
-.search-container__table-header {
-  background-color: #f2f2f2;
-  /* Otros estilos para los encabezados */
-}
-
-.search-container__table-data {
-  border: 1px solid #ddd;
-  padding: 8px;
-  /* Otros estilos para las celdas de datos */
 }

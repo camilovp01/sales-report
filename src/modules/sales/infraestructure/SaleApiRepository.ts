@@ -1,11 +1,11 @@
-import { apiUrl } from "@/constants/constants";
+import { localApiUrl } from "@/constants/constants";
 
 import { Sale } from "../domain/Sale";
 import { SaleRepository } from "../domain/Sale.repository";
 
 export class SaleApiRepository implements SaleRepository {
   async getAll(): Promise<Sale[]> {
-    const response = await fetch(apiUrl, {
+    const response = await fetch(localApiUrl, {
       method: "GET",
     });
     const data = await response.json();

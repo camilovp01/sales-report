@@ -3,8 +3,8 @@ export interface Sale {
   status: string;
   paymentMethod: string;
   salesType: string;
-  createdAt: number;
+  createdAt: string | Date;
   transactionReference: number;
   amount: number;
-  franchise: string;
+  franchise?: string;
 }
