@@ -17,22 +17,18 @@ import {
 } from "@/constants/constants";
 import moment from "moment";
 import "moment/locale/es";
-import { createContext, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./page.module.scss";
 
+import { AppContext } from "@/hooks/useAppContext";
 import useFilteredSales from "@/hooks/useFilteredSales";
 
 moment.locale("es");
 
 const currentMonth = moment().format("MMMM");
-export const capitalizedMonth =
+const capitalizedMonth =
   currentMonth.charAt(0).toUpperCase() + currentMonth.slice(1);
 principalFilterOptions.options.currentMonth = capitalizedMonth;
-
-export const AppContext = createContext({
-  changeFilter: (value: string) => {},
-  changeCheckbox: (objt: object) => {},
-});
 
 const getSales = async (): Promise<Sale[]> => {
   const saleRepository: SaleRepository = new SaleApiRepository();
@@ -94,7 +90,7 @@ export default function SalesPage() {
       changeFilter: setFilterCriteria,
       changeCheckbox: setFilterCheckbox,
     }),
-    []
+    [],
   );
 
   const memoTable = useMemo(() => {
