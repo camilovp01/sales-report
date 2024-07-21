@@ -21,9 +21,9 @@ export const principalFilterOptions: FilterProps = {
 
 export const checkboxFilter: FilterCheckboxProps = {
   options: {
-    paymentLink: "Cobro con link de pago",
-    terminal: "Cobro con datáfono",
-    all: "Ver todos",
+    linkSales: "Cobro con link de pago",
+    terminalSales: "Cobro con datáfono",
+    allSales: "Ver todos",
   },
 };
 

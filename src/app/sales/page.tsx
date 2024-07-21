@@ -15,11 +15,12 @@ import {
   headers,
   principalFilterOptions,
 } from "@/constants/constants";
-import dateComparison from "@/utils/dateComparison";
 import moment from "moment";
 import "moment/locale/es";
 import { createContext, useEffect, useMemo, useState } from "react";
 import styles from "./page.module.scss";
+
+import useFilteredSales from "@/hooks/useFilteredSales";
 
 moment.locale("es");
 
@@ -27,8 +28,10 @@ const currentMonth = moment().format("MMMM");
 export const capitalizedMonth =
   currentMonth.charAt(0).toUpperCase() + currentMonth.slice(1);
 principalFilterOptions.options.currentMonth = capitalizedMonth;
+
 export const AppContext = createContext({
   changeFilter: (value: string) => {},
+  changeCheckbox: (objt: object) => {},
 });
 
 const getSales = async (): Promise<Sale[]> => {
@@ -42,101 +45,57 @@ const getSales = async (): Promise<Sale[]> => {
 };
 
 export default function SalesPage() {
-  const [salesFiltered, setSalesFiltered] = useState<Sale[]>([]);
   const [activeFilters, setActiveFilters] = useState({
     currentDay: false,
     currentWeek: false,
     currentMonth: false,
+    terminalSales: true,
+    linkSales: false,
+    allSales: false,
     searchValue: "",
   });
   const [sales, setSales] = useState<Sale[]>([]);
   const [filterCriteria, setFilterCriteria] = useState<string>("");
+  const [filterCheckbox, setFilterCheckbox] = useState<object>({});
+  const salesFiltered = useFilteredSales(sales, activeFilters);
 
   const searchSales = (value: string) => {
     const lowerCaseValue = value.toLowerCase();
-    if (lowerCaseValue) {
-      setActiveFilters({ ...activeFilters, searchValue: value });
-    } else {
-      setActiveFilters({ ...activeFilters, searchValue: "" });
-    }
+    setActiveFilters((prevFilters) => ({
+      ...prevFilters,
+      searchValue: lowerCaseValue || "",
+    }));
   };
 
   useEffect(() => {
     getSales().then((sales) => {
-      setSalesFiltered(sales);
       setSales(sales);
     });
   }, []);
 
   useEffect(() => {
-    switch (filterCriteria) {
-      case "currentDay": {
-        setActiveFilters({
-          ...activeFilters,
-          currentMonth: false,
-          currentWeek: false,
-          currentDay: true,
-        });
-        break;
-      }
-      case "currentWeek": {
-        setActiveFilters({
-          ...activeFilters,
-          currentMonth: false,
-          currentWeek: true,
-          currentDay: false,
-        });
-        break;
-      }
-      case "currentMonth": {
-        setActiveFilters({
-          ...activeFilters,
-          currentMonth: true,
-          currentWeek: false,
-          currentDay: false,
-        });
-        break;
-      }
-      default:
-        setActiveFilters({
-          ...activeFilters,
-          currentMonth: false,
-          currentWeek: false,
-          currentDay: false,
-        });
-        break;
-    }
+    setActiveFilters((prevFilters) => ({
+      ...prevFilters,
+      currentDay: filterCriteria === "currentDay",
+      currentWeek: filterCriteria === "currentWeek",
+      currentMonth: filterCriteria === "currentMonth",
+    }));
   }, [filterCriteria]);
 
   useEffect(() => {
-    const { currentDay, currentWeek, currentMonth, searchValue } =
-      activeFilters;
-    const salesFilterResult = sales.filter((sale) => {
-      const createdAt = sale.createdAt;
-      let isWithinTimeFrame = true;
+    setActiveFilters((prevFilters) => ({
+      ...prevFilters,
+      ...filterCheckbox,
+    }));
+  }, [filterCheckbox]);
 
-      if (currentDay) {
-        isWithinTimeFrame = dateComparison(String(createdAt), "currentDay");
-      } else if (currentWeek) {
-        isWithinTimeFrame = dateComparison(String(createdAt), "currentWeek");
-      } else if (currentMonth) {
-        isWithinTimeFrame = dateComparison(String(createdAt), "currentMonth");
-      }
-
-      let matchesSearch = true;
-
-      if (searchValue) {
-        const searchStr = searchValue.toString().toLowerCase();
-        matchesSearch = Object.values(sale).some((value) =>
-          value.toString().toLowerCase().includes(searchStr),
-        );
-      }
-      return isWithinTimeFrame && matchesSearch;
-    });
-    setSalesFiltered(salesFilterResult);
-  }, [activeFilters, sales]);
-
-  const valueContext = useMemo(() => ({ changeFilter: setFilterCriteria }), []);
+  const valueContext = useMemo(
+    () => ({
+      changeFilter: setFilterCriteria,
+      changeCheckbox: setFilterCheckbox,
+    }),
+    []
+  );
 
   const memoTable = useMemo(() => {
     return <Table headers={headers} items={salesFiltered}></Table>;
@@ -153,7 +112,10 @@ export default function SalesPage() {
         <div className={styles["container-filters"]}>
           <Filter options={principalFilterOptions.options}></Filter>
           <div className={styles["container-filters__types"]}>
-            <CheckboxFilter options={checkboxFilter.options}></CheckboxFilter>
+            <CheckboxFilter
+              options={checkboxFilter.options}
+              defaultChecked={{ ...activeFilters }}
+            ></CheckboxFilter>
           </div>
         </div>
       </div>

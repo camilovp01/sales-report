@@ -1,20 +1,50 @@
+import useAppContext from "@/hooks/useAppContext";
 import { SlidersHorizontal, X } from "lucide-react";
 import { useState } from "react";
 import styles from "./CheckboxFilter.module.scss";
 
 export interface FilterCheckboxProps {
   options: {
-    paymentLink: string;
-    terminal: string;
-    all: string;
+    terminalSales: string;
+    linkSales: string;
+    allSales: string;
+  };
+  defaultChecked?: {
+    terminalSales?: boolean;
+    linkSales?: boolean;
+    allSales?: boolean;
   };
 }
 
 export default function CheckboxFilter({
   options,
+  defaultChecked = { terminalSales: false, linkSales: false, allSales: false },
 }: Readonly<FilterCheckboxProps>) {
-  const [showFilter, setShowFilter] = useState<boolean>(false);
   const values = Object.values(options);
+  const keys = Object.keys(options);
+
+  const [showFilter, setShowFilter] = useState<boolean>(false);
+  const { changeCheckbox } = useAppContext();
+
+  const initialCheckedState = keys.map(
+    (key) => defaultChecked[key as keyof typeof defaultChecked] || false
+  );
+  const [checkedState, setCheckedState] = useState(initialCheckedState);
+
+  const handleOnChange = (position: number) => {
+    const updatedCheckedState = checkedState.map((item, index) =>
+      index === position ? !item : item
+    );
+    setCheckedState(updatedCheckedState);
+  };
+
+  const submit = () => {
+    const result = Object.fromEntries(
+      keys.map((key, index) => [key, checkedState[index]])
+    );
+    changeCheckbox(result);
+  };
+
   return (
     <div className={styles["container__wrapper"]}>
       <button
@@ -42,11 +72,16 @@ export default function CheckboxFilter({
           </div>
           {values.map((value, i) => (
             <div key={value} className={styles["container__wrapper__option"]}>
-              <input type="checkbox" id={value} />
+              <input
+                type="checkbox"
+                id={value}
+                checked={checkedState[i]}
+                onChange={() => handleOnChange(i)}
+              />
               <label htmlFor={value}>{value}</label>
             </div>
           ))}
-          <button>Aplicar </button>
+          <button onClick={submit}>Aplicar</button>
         </div>
       )}
     </div>
