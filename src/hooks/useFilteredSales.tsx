@@ -35,7 +35,7 @@ const useFilteredSales = (sales: Sale[], activeFilters: Filters) => {
       if (searchValue) {
         const searchStr = searchValue.toString().toLowerCase();
         matchesSearch = Object.values(sale).some((value) =>
-          value.toString().toLowerCase().includes(searchStr)
+          value.toString().toLowerCase().includes(searchStr),
         );
       }
 

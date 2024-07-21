@@ -27,20 +27,20 @@ export default function CheckboxFilter({
   const { changeCheckbox } = useAppContext();
 
   const initialCheckedState = keys.map(
-    (key) => defaultChecked[key as keyof typeof defaultChecked] || false
+    (key) => defaultChecked[key as keyof typeof defaultChecked] || false,
   );
   const [checkedState, setCheckedState] = useState(initialCheckedState);
 
   const handleOnChange = (position: number) => {
     const updatedCheckedState = checkedState.map((item, index) =>
-      index === position ? !item : item
+      index === position ? !item : item,
     );
     setCheckedState(updatedCheckedState);
   };
 
   const submit = () => {
     const result = Object.fromEntries(
-      keys.map((key, index) => [key, checkedState[index]])
+      keys.map((key, index) => [key, checkedState[index]]),
     );
     changeCheckbox(result);
   };
