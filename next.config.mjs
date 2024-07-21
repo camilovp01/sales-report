@@ -1,8 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  env: {
-    LOCAL_API_URL: "http://localhost:3000/api/sales",
-  },
-};
+const nextConfig = {};
 
 export default nextConfig;

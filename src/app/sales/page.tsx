@@ -45,7 +45,7 @@ export default function SalesPage() {
     currentDay: false,
     currentWeek: false,
     currentMonth: false,
-    terminalSales: true,
+    terminalSales: false,
     linkSales: false,
     allSales: false,
     searchValue: "",
