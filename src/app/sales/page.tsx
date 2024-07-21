@@ -22,6 +22,7 @@ import styles from "./page.module.scss";
 
 import { AppContext } from "@/hooks/useAppContext";
 import useFilteredSales from "@/hooks/useFilteredSales";
+import { Filters } from "./interfaces/Filters";
 
 moment.locale("es");
 
@@ -41,7 +42,7 @@ const getSales = async (): Promise<Sale[]> => {
 };
 
 export default function SalesPage() {
-  const [activeFilters, setActiveFilters] = useState({
+  const [activeFilters, setActiveFilters] = useState<Filters>({
     currentDay: false,
     currentWeek: false,
     currentMonth: false,
