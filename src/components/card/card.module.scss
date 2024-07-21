@@ -1,10 +1,10 @@
 .card {
-  background: white;
+  background: var(--white-color);
   border-radius: var(--border-radius);
   width: 100%;
   box-shadow: var(--box-shadow);
   &__header {
-    color: white;
+    color: var(--white-color);
     background: var(--linear-gradient);
     font-size: var(--secondary-font-size);
     border-top-left-radius: var(--border-radius);
