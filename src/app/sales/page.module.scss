@@ -25,3 +25,20 @@
     }
   }
 }
+
+.card {
+  &__wrapper {
+    padding: 1rem;
+  }
+  &__total {
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    &--gradient {
+      background: -webkit-linear-gradient(var(--blue-color), var(--red-color));
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+}

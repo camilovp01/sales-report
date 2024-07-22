@@ -1,22 +1,24 @@
-@import "../styles/mixins.scss";
-
 .main {
   padding: 1rem;
   background: var(--background-color);
   min-height: 100vh;
-
+  display: flex;
+  justify-content: center;
   &__options {
     display: flex;
-    flex-direction: column-reverse;
-    gap: 1rem;
-    @include medium {
-      flex-direction: row;
-    }
-    &__card__container {
-      width: 100%;
-      @include medium {
-        max-width: 500px;
-      }
-    }
+    justify-content: center;
+    align-items: center;
+    width: 100%;
   }
+}
+.welcome {
+  padding: 1rem;
+  outline: none;
+  border: none;
+  background: var(--linear-gradient);
+  color: var(--white-color);
+  font-size: 32px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  font-family: inherit;
 }

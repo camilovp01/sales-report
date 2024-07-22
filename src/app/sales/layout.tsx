@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import Header from "@/components/header/Header";
 import styles from "./layout.module.scss";
 
 export const metadata: Metadata = {
@@ -11,5 +12,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <main className={styles.main}>{children}</main>;
+  return (
+    <>
+      <Header></Header>
+      <main className={styles.main}>{children}</main>;
+    </>
+  );
 }

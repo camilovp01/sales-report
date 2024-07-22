@@ -23,6 +23,8 @@ import styles from "./page.module.scss";
 import useActiveFilters from "@/hooks/useActiveFilters";
 import { AppContext } from "@/hooks/useAppContext";
 import useFilteredSales from "@/hooks/useFilteredSales";
+import { formatClpSymbol } from "@/utils/formatCurrency";
+import { Info } from "lucide-react";
 import { Filters } from "./interfaces/Filters";
 
 moment.locale("es");
@@ -88,6 +90,12 @@ export default function SalesPage() {
     }));
   }, [filterCheckbox]);
 
+  const getBalance = (): string => {
+    return formatClpSymbol(
+      salesFiltered.reduce((sum, sale) => sum + sale.amount, 0),
+    );
+  };
+
   const valueContext = useMemo(
     () => ({
       changeFilter: setFilterCriteria,
@@ -104,8 +112,14 @@ export default function SalesPage() {
     <AppContext.Provider value={valueContext}>
       <div className={styles["container"]}>
         <div className={styles["container__card"]}>
-          <Card title="Total Ventas de Junio">
-            <p>Todo</p>
+          <Card title="Total Ventas de Junio" icon={<Info size={16} />}>
+            <div className={styles["card__wrapper"]}>
+              <p
+                className={`${styles["card__total"]} ${styles["card__total--gradient"]}`}
+              >
+                {getBalance()}
+              </p>
+            </div>
           </Card>
         </div>
         <div className={styles["container-filters"]}>
