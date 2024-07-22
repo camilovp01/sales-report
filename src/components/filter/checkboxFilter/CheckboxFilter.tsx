@@ -49,6 +49,7 @@ export default function CheckboxFilter({
 
   const submit = () => {
     const result = createPartialFiltersObject(keys, checkedState) as Filters;
+    setShowFilter(false);
     changeCheckbox({ ...result });
   };
 

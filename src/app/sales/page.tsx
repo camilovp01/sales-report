@@ -21,9 +21,11 @@ import { useEffect, useMemo, useState } from "react";
 import styles from "./page.module.scss";
 
 import Detail from "@/components/detail/Detail";
+import withTooltip from "@/components/tooltip/witchTooltip";
 import useActiveFilters from "@/hooks/useActiveFilters";
 import { AppContext } from "@/hooks/useAppContext";
 import useFilteredSales from "@/hooks/useFilteredSales";
+import { buildTitleResume, buildTitleTable } from "@/utils/buildTitles";
 import { formatClpSymbol } from "@/utils/formatCurrency";
 import { Info } from "lucide-react";
 import { Filters } from "./interfaces/Filters";
@@ -59,7 +61,13 @@ export default function SalesPage() {
   const [saleDetail, setSaleDetail] = useState<Sale>();
   const [filterCriteria, setFilterCriteria] = useState<string>();
   const [filterCheckbox, setFilterCheckbox] = useState<object>({});
+  const [titleResume, setTitleResume] = useState<string>("");
+  const [titleTable, setTitleTable] = useState<string>("");
   const salesFiltered = useFilteredSales(sales, activeFilters);
+  const IconWithTooltip = withTooltip(
+    Info,
+    "Este es el total de las ventas filtradas",
+  );
 
   const searchSales = (value: string) => {
     const lowerCaseValue = value.toLowerCase();
@@ -92,9 +100,14 @@ export default function SalesPage() {
     }));
   }, [filterCheckbox]);
 
+  useEffect(() => {
+    setTitleResume(buildTitleResume(activeFilters, capitalizedMonth));
+    setTitleTable(buildTitleTable(activeFilters, capitalizedMonth));
+  }, [activeFilters]);
+
   const getBalance = (): string => {
     return formatClpSymbol(
-      salesFiltered.reduce((sum, sale) => sum + sale.amount, 0)
+      salesFiltered.reduce((sum, sale) => sum + sale.amount, 0),
     );
   };
 
@@ -113,7 +126,7 @@ export default function SalesPage() {
       changeFilter: setFilterCriteria,
       changeCheckbox: setFilterCheckbox,
     }),
-    []
+    [],
   );
 
   const memoTable = useMemo(() => {
@@ -130,7 +143,7 @@ export default function SalesPage() {
     <AppContext.Provider value={valueContext}>
       <div className={styles["container"]}>
         <div className={styles["container__card"]}>
-          <Card title="Total Ventas de Junio" icon={<Info size={16} />}>
+          <Card title={titleResume} icon={<IconWithTooltip size={16} />}>
             <div className={styles["card__wrapper"]}>
               <p
                 className={`${styles["card__total"]} ${styles["card__total--gradient"]}`}
@@ -146,14 +159,16 @@ export default function SalesPage() {
             defaultValue={{ ...activeFilters }}
           ></Filter>
           <div className={styles["container-filters__types"]}>
-            <CheckboxFilter
-              options={CHECKBOX_FILTER.options}
-              defaultChecked={{ ...activeFilters }}
-            ></CheckboxFilter>
+            <div className={styles["container-filters__types"]}>
+              <CheckboxFilter
+                options={CHECKBOX_FILTER.options}
+                defaultChecked={{ ...activeFilters }}
+              ></CheckboxFilter>
+            </div>
           </div>
         </div>
       </div>
-      <Card title={`Tus Ventas de ${capitalizedMonth}`}>
+      <Card title={titleTable}>
         <InputFilter
           onChange={searchSales}
           defaultValue={activeFilters.searchValue}
