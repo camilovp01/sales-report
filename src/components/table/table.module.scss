@@ -2,12 +2,13 @@
   &__table {
     width: 100%;
     border-collapse: collapse;
-    &__currency {
+    &--currency {
       min-width: 100px;
     }
   }
 
   &__table-row {
+    cursor: pointer;
     border: 2px solid var(--light-grey-secondary-color);
   }
 
