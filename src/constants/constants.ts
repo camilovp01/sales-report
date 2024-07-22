@@ -4,14 +4,16 @@ import { Header } from "@/components/table/Table";
 import { formatClpSymbol } from "@/utils/formatCurrency";
 
 // environment
-export const apiUrl =
+export const API_URL =
   process.env.API_URL ?? "https://bold-fe-api.vercel.app/api";
 
-export const localApiUrl =
+export const LOCAL_API_URL =
   process.env.LOCAL_API_URL ?? "https://sales-report-bold.vercel.app";
 
+export const BOLD_FEE = 0.03;
+
 //filters
-export const principalFilterOptions: FilterProps = {
+export const PRINCIPAL_FILTER_OPTIONS: FilterProps = {
   options: {
     currentDay: "Hoy",
     currentWeek: "Esta semana",
@@ -19,7 +21,7 @@ export const principalFilterOptions: FilterProps = {
   },
 };
 
-export const checkboxFilter: FilterCheckboxProps = {
+export const CHECKBOX_FILTER: FilterCheckboxProps = {
   options: {
     linkSales: "Cobro con link de pago",
     terminalSales: "Cobro con datáfono",
@@ -28,7 +30,7 @@ export const checkboxFilter: FilterCheckboxProps = {
 };
 
 //table headers
-export const headers: Header[] = [
+export const HEADERS: Header[] = [
   {
     label: "Transacción",
     target: "status",

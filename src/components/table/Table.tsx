@@ -26,7 +26,7 @@ interface WithIdAndProperties extends WithId {
 export interface TableProps {
   items: WithIdAndProperties[];
   headers: Header[];
-  onClickFn?: (item: any) => void;
+  onClickFn: (item: any) => void;
   onClickHeader?: (header: Header, orderType: "asc" | "desc") => void;
 }
 
@@ -117,6 +117,7 @@ export default function Table({
               <tr
                 key={item.id}
                 className={styles["table-container__table-row"]}
+                onClick={() => onClickFn(item)}
               >
                 {headers.map((header: Header, index: number) => {
                   if (header.type === "date") {
@@ -127,7 +128,7 @@ export default function Table({
                       >
                         <div>
                           {moment(item[header.target]).format(
-                            "DD/MM/YYYY hh:mm:ss",
+                            "DD/MM/YYYY hh:mm:ss"
                           )}
                         </div>
                       </td>
@@ -142,7 +143,7 @@ export default function Table({
                         {header.format ? (
                           <div
                             className={
-                              styles["table-container__table__currency"]
+                              styles["table-container__table--currency"]
                             }
                           >
                             {header.format(item[header.target])}
@@ -189,7 +190,7 @@ export default function Table({
                             {header?.fieldToValidateIcon
                               ? renderIconSwitch(
                                   item[header.target],
-                                  item[header?.fieldToValidateIcon],
+                                  item[header?.fieldToValidateIcon]
                                 )
                               : renderIconSwitch(item[header.target])}
                           </span>

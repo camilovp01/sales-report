@@ -11,15 +11,16 @@ import { SaleApiRepository } from "@/modules/sales/infraestructure/SaleApiReposi
 import CheckboxFilter from "@/components/filter/checkboxFilter/CheckboxFilter";
 import InputFilter from "@/components/filter/inputFilter/InputFilter";
 import {
-  checkboxFilter,
-  headers,
-  principalFilterOptions,
+  CHECKBOX_FILTER,
+  HEADERS,
+  PRINCIPAL_FILTER_OPTIONS,
 } from "@/constants/constants";
 import moment from "moment";
 import "moment/locale/es";
 import { useEffect, useMemo, useState } from "react";
 import styles from "./page.module.scss";
 
+import Detail from "@/components/detail/Detail";
 import useActiveFilters from "@/hooks/useActiveFilters";
 import { AppContext } from "@/hooks/useAppContext";
 import useFilteredSales from "@/hooks/useFilteredSales";
@@ -32,7 +33,7 @@ moment.locale("es");
 const currentMonth = moment().format("MMMM");
 const capitalizedMonth =
   currentMonth.charAt(0).toUpperCase() + currentMonth.slice(1);
-principalFilterOptions.options.currentMonth = capitalizedMonth;
+PRINCIPAL_FILTER_OPTIONS.options.currentMonth = capitalizedMonth;
 
 const getSales = async (): Promise<Sale[]> => {
   const saleRepository: SaleRepository = new SaleApiRepository();
@@ -55,6 +56,7 @@ export default function SalesPage() {
     searchValue: "",
   });
   const [sales, setSales] = useState<Sale[]>([]);
+  const [saleDetail, setSaleDetail] = useState<Sale>();
   const [filterCriteria, setFilterCriteria] = useState<string>();
   const [filterCheckbox, setFilterCheckbox] = useState<object>({});
   const salesFiltered = useFilteredSales(sales, activeFilters);
@@ -92,8 +94,18 @@ export default function SalesPage() {
 
   const getBalance = (): string => {
     return formatClpSymbol(
-      salesFiltered.reduce((sum, sale) => sum + sale.amount, 0),
+      salesFiltered.reduce((sum, sale) => sum + sale.amount, 0)
     );
+  };
+
+  const showDetail = (sale: Sale) => {
+    document.documentElement.classList.add("no-scroll");
+    setSaleDetail(sale);
+  };
+
+  const hideDetail = () => {
+    document.documentElement.classList.remove("no-scroll");
+    setSaleDetail(undefined);
   };
 
   const valueContext = useMemo(
@@ -101,11 +113,17 @@ export default function SalesPage() {
       changeFilter: setFilterCriteria,
       changeCheckbox: setFilterCheckbox,
     }),
-    [],
+    []
   );
 
   const memoTable = useMemo(() => {
-    return <Table headers={headers} items={salesFiltered}></Table>;
+    return (
+      <Table
+        onClickFn={showDetail}
+        headers={HEADERS}
+        items={salesFiltered}
+      ></Table>
+    );
   }, [salesFiltered]);
 
   return (
@@ -124,12 +142,12 @@ export default function SalesPage() {
         </div>
         <div className={styles["container-filters"]}>
           <Filter
-            options={principalFilterOptions.options}
+            options={PRINCIPAL_FILTER_OPTIONS.options}
             defaultValue={{ ...activeFilters }}
           ></Filter>
           <div className={styles["container-filters__types"]}>
             <CheckboxFilter
-              options={checkboxFilter.options}
+              options={CHECKBOX_FILTER.options}
               defaultChecked={{ ...activeFilters }}
             ></CheckboxFilter>
           </div>
@@ -142,6 +160,9 @@ export default function SalesPage() {
         ></InputFilter>
         {memoTable}
       </Card>
+      {saleDetail && (
+        <Detail saleDetail={saleDetail} onHide={hideDetail}></Detail>
+      )}
     </AppContext.Provider>
   );
 }

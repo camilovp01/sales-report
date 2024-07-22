@@ -1,0 +1,92 @@
+@import "../../styles/mixins.scss";
+
+.overlay {
+  position: fixed;
+  background: #d7d7d7;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  opacity: 0.5;
+}
+
+.detail {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: var(--white-color);
+  padding: 2rem;
+  @include medium {
+    left: initial;
+    max-width: 400px;
+  }
+}
+
+.resume {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 5rem;
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  &__label {
+    color: var(--dark-grey-color);
+    font-weight: 200;
+  }
+  &__value {
+    &--black {
+      font-weight: 700;
+    }
+    &--red {
+      font-weight: 500;
+      color: var(--red-color);
+    }
+  }
+
+  &__icon {
+    margin-right: 0.5rem;
+    color: var(--blue-color);
+  }
+}
+
+.close-wrapper {
+  text-align: end;
+  &__icon {
+    color: var(--blue-color);
+    cursor: pointer;
+  }
+}
+
+.icon {
+  &--success {
+    color: #78e8b5;
+  }
+  &--reject {
+    color: var(--red-color);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  &__status {
+    font-weight: 700;
+  }
+  &__amount {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--blue-color);
+  }
+
+  &__date {
+    font-weight: 200;
+    font-size: 14px;
+  }
+}
