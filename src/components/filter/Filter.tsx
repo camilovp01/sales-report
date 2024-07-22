@@ -10,7 +10,7 @@ export interface FilterProps {
     currentWeek: string;
     currentMonth: string;
   };
-  defaultValue: {
+  defaultValue?: {
     currentDay: boolean;
     currentWeek: boolean;
     currentMonth: boolean;

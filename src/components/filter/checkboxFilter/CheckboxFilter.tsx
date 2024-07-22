@@ -11,9 +11,9 @@ export interface FilterCheckboxProps {
     allSales: string;
   };
   defaultChecked?: {
-    terminalSales?: boolean;
-    linkSales?: boolean;
-    allSales?: boolean;
+    terminalSales: boolean;
+    linkSales: boolean;
+    allSales: boolean;
   };
 }
 
@@ -24,7 +24,7 @@ export default function CheckboxFilter({
   const values = Object.values(options);
   const keys = Object.keys(options);
   const initialCheckedState = keys.map(
-    (key) => defaultChecked[key as keyof typeof defaultChecked] || false,
+    (key) => defaultChecked[key as keyof typeof defaultChecked] || false
   );
 
   const [showFilter, setShowFilter] = useState<boolean>(false);
@@ -34,12 +34,12 @@ export default function CheckboxFilter({
 
   const handleOnChange = (position: number) => {
     const updatedCheckedState = checkedState.map((item, index) =>
-      index === position ? !item : item,
+      index === position ? !item : item
     );
     if (!updatedCheckedState.includes(true)) {
       const result = createPartialFiltersObject(
         keys,
-        updatedCheckedState,
+        updatedCheckedState
       ) as Filters;
 
       changeCheckbox({ ...result });
@@ -54,10 +54,10 @@ export default function CheckboxFilter({
 
   const createPartialFiltersObject = (
     keys: string[],
-    checkedState: boolean[],
+    checkedState: boolean[]
   ): Partial<Filters> => {
     return Object.fromEntries(
-      keys.map((key, index) => [key, checkedState[index]]),
+      keys.map((key, index) => [key, checkedState[index]])
     ) as Partial<Filters>;
   };
 
