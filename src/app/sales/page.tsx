@@ -20,6 +20,7 @@ import "moment/locale/es";
 import { useEffect, useMemo, useState } from "react";
 import styles from "./page.module.scss";
 
+import useActiveFilters from "@/hooks/useActiveFilters";
 import { AppContext } from "@/hooks/useAppContext";
 import useFilteredSales from "@/hooks/useFilteredSales";
 import { Filters } from "./interfaces/Filters";
@@ -42,7 +43,7 @@ const getSales = async (): Promise<Sale[]> => {
 };
 
 export default function SalesPage() {
-  const [activeFilters, setActiveFilters] = useState<Filters>({
+  const [activeFilters, setActiveFilters] = useActiveFilters<Filters>({
     currentDay: false,
     currentWeek: false,
     currentMonth: false,
@@ -52,7 +53,7 @@ export default function SalesPage() {
     searchValue: "",
   });
   const [sales, setSales] = useState<Sale[]>([]);
-  const [filterCriteria, setFilterCriteria] = useState<string>("");
+  const [filterCriteria, setFilterCriteria] = useState<string>();
   const [filterCheckbox, setFilterCheckbox] = useState<object>({});
   const salesFiltered = useFilteredSales(sales, activeFilters);
 
@@ -71,6 +72,7 @@ export default function SalesPage() {
   }, []);
 
   useEffect(() => {
+    if (filterCriteria === undefined) return;
     setActiveFilters((prevFilters) => ({
       ...prevFilters,
       currentDay: filterCriteria === "currentDay",
@@ -107,7 +109,10 @@ export default function SalesPage() {
           </Card>
         </div>
         <div className={styles["container-filters"]}>
-          <Filter options={principalFilterOptions.options}></Filter>
+          <Filter
+            options={principalFilterOptions.options}
+            defaultValue={{ ...activeFilters }}
+          ></Filter>
           <div className={styles["container-filters__types"]}>
             <CheckboxFilter
               options={checkboxFilter.options}
@@ -117,7 +122,10 @@ export default function SalesPage() {
         </div>
       </div>
       <Card title={`Tus Ventas de ${capitalizedMonth}`}>
-        <InputFilter onChange={searchSales}></InputFilter>
+        <InputFilter
+          onChange={searchSales}
+          defaultValue={activeFilters.searchValue}
+        ></InputFilter>
         {memoTable}
       </Card>
     </AppContext.Provider>

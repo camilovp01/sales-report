@@ -1,7 +1,7 @@
 "use client";
 
 import useAppContext from "@/hooks/useAppContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./filter.module.scss";
 
 export interface FilterProps {
@@ -10,23 +10,40 @@ export interface FilterProps {
     currentWeek: string;
     currentMonth: string;
   };
+  defaultValue: {
+    currentDay: boolean;
+    currentWeek: boolean;
+    currentMonth: boolean;
+  };
 }
 
-export default function Filter({ options }: Readonly<FilterProps>) {
-  const [clickedIndex, setClickedIndex] = useState<string>();
+export default function Filter({
+  options,
+  defaultValue = { currentDay: false, currentWeek: false, currentMonth: false },
+}: Readonly<FilterProps>) {
+  const [clickedElement, setClickedElement] = useState<string>();
   const { changeFilter } = useAppContext();
   const values = Object.values(options);
   const keys = Object.keys(options);
 
   const handleClick = (option: string) => {
-    if (clickedIndex === option) {
-      setClickedIndex("");
+    if (clickedElement === option) {
+      setClickedElement("");
       changeFilter("");
       return;
     }
-    setClickedIndex(option);
+    setClickedElement(option);
     changeFilter(option);
   };
+
+  useEffect(() => {
+    const keyOptions = Object.keys(options);
+    const result = keyOptions.find((keyOption) => {
+      return defaultValue[keyOption as keyof boolean];
+    });
+    setClickedElement(result);
+  }, [defaultValue]);
+
   return (
     <div className={styles.filter}>
       {values.map((value, i) => (
@@ -34,7 +51,7 @@ export default function Filter({ options }: Readonly<FilterProps>) {
           key={value}
           onClick={() => handleClick(keys[i])}
           className={`${styles.button} ${
-            clickedIndex === keys[i] ? styles["button--active"] : ""
+            clickedElement === keys[i] ? styles["button--active"] : ""
           }`}
         >
           {value}
