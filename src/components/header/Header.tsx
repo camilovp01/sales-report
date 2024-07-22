@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { CircleHelp } from "lucide-react";
 import styles from "../header/header.module.scss";
 
 export default function Header() {
@@ -20,6 +21,7 @@ export default function Header() {
       <nav className={styles.options}>
         <Link href="#mi-negocio">Mi Negocio</Link>
         <Link href="#ayuda">Ayuda</Link>
+        <CircleHelp size={16} />
       </nav>
     </header>
   );
