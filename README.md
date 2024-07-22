@@ -2,7 +2,7 @@
 
 ## Descripción
 
-Este proyecto está diseñado utilizando la arquitectura hexagonal para la entidad de ventas y hace uso de diversas tecnologías y prácticas modernas como `husky` para el formateo de código y `conventional commits` para mantener un historial de commits claro y consistente. Además, está desarrollado con Next.js en su versión 14, donde todos los componentes son por defecto renderizados del lado del servidor (SSR) a menos que se especifique lo contrario, utilizando el nuevo sistema de `app pages`.
+Este proyecto está diseñado utilizando la arquitectura hexagonal para la entidad de ventas y hace uso de diversas tecnologías y prácticas modernas como `husky` para el formateo de código y `conventional commits` para mantener un historial de commits claro y consistente. Además, está desarrollado con Next.js en su versión 14, donde todos los componentes son por defecto renderizados del lado del servidor (SSR) a menos que se especifique lo contrario, utilizando el nuevo sistema de `app router`.
 
 ## Arquitectura de Carpetas
 
@@ -40,7 +40,7 @@ Este proyecto está diseñado utilizando la arquitectura hexagonal para la entid
 ## Características
 
 - **Next.js 14**: Uso de la versión 14 de Next.js donde todos los componentes son renderizados del lado del servidor por defecto.
-- **App Pages**: Uso del nuevo sistema de páginas de la aplicación.
+- **App Router**: Uso del nuevo sistema de páginas de la aplicación.
 - **Hooks Personalizados**: Implementación de hooks para la lógica de filtrado.
 - **Componente HOC para Tooltips**: Uso de un componente HOC para la funcionalidad de tooltips.
 - **Tabla Dinámica**: Manejo de la información con una tabla dinámica que recibe un objeto para los headers y otro con los valores.
