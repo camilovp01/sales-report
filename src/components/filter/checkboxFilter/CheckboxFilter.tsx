@@ -1,6 +1,7 @@
+import { Filters } from "@/app/sales/interfaces/Filters";
 import useAppContext from "@/hooks/useAppContext";
 import { SlidersHorizontal, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./CheckboxFilter.module.scss";
 
 export interface FilterCheckboxProps {
@@ -10,9 +11,9 @@ export interface FilterCheckboxProps {
     allSales: string;
   };
   defaultChecked?: {
-    terminalSales?: boolean;
-    linkSales?: boolean;
-    allSales?: boolean;
+    terminalSales: boolean;
+    linkSales: boolean;
+    allSales: boolean;
   };
 }
 
@@ -22,30 +23,47 @@ export default function CheckboxFilter({
 }: Readonly<FilterCheckboxProps>) {
   const values = Object.values(options);
   const keys = Object.keys(options);
+  const initialCheckedState = keys.map(
+    (key) => defaultChecked[key as keyof typeof defaultChecked] || false
+  );
 
   const [showFilter, setShowFilter] = useState<boolean>(false);
   const { changeCheckbox } = useAppContext();
-
-  const initialCheckedState = keys.map(
-    (key) => defaultChecked[key as keyof typeof defaultChecked] || false,
-  );
   const [checkedState, setCheckedState] = useState(initialCheckedState);
+  const [filterIsValid, setFilterIsValid] = useState<boolean>(false);
 
   const handleOnChange = (position: number) => {
     const updatedCheckedState = checkedState.map((item, index) =>
-      index === position ? !item : item,
+      index === position ? !item : item
     );
+    if (!updatedCheckedState.includes(true)) {
+      const result = createPartialFiltersObject(
+        keys,
+        updatedCheckedState
+      ) as Filters;
+
+      changeCheckbox({ ...result });
+    }
     setCheckedState(updatedCheckedState);
   };
 
   const submit = () => {
-    const result = Object.fromEntries(
-      keys.map((key, index) => [key, checkedState[index]]),
-    );
-    changeCheckbox(result);
+    const result = createPartialFiltersObject(keys, checkedState) as Filters;
+    changeCheckbox({ ...result });
   };
 
-  const filterIsValid = Object.values(checkedState).includes(true);
+  const createPartialFiltersObject = (
+    keys: string[],
+    checkedState: boolean[]
+  ): Partial<Filters> => {
+    return Object.fromEntries(
+      keys.map((key, index) => [key, checkedState[index]])
+    ) as Partial<Filters>;
+  };
+
+  useEffect(() => {
+    setFilterIsValid(Object.values(checkedState).includes(true));
+  }, [checkedState]);
 
   return (
     <div className={styles["container__wrapper"]}>
