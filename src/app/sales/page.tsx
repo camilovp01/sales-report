@@ -77,34 +77,6 @@ export default function SalesPage() {
     }));
   };
 
-  useEffect(() => {
-    getSales().then((sales) => {
-      setSales(sales);
-    });
-  }, []);
-
-  useEffect(() => {
-    if (filterCriteria === undefined) return;
-    setActiveFilters((prevFilters) => ({
-      ...prevFilters,
-      currentDay: filterCriteria === "currentDay",
-      currentWeek: filterCriteria === "currentWeek",
-      currentMonth: filterCriteria === "currentMonth",
-    }));
-  }, [filterCriteria]);
-
-  useEffect(() => {
-    setActiveFilters((prevFilters) => ({
-      ...prevFilters,
-      ...filterCheckbox,
-    }));
-  }, [filterCheckbox]);
-
-  useEffect(() => {
-    setTitleResume(buildTitleResume(activeFilters, capitalizedMonth));
-    setTitleTable(buildTitleTable(activeFilters, capitalizedMonth));
-  }, [activeFilters]);
-
   const getBalance = (): string => {
     return formatClpSymbol(
       salesFiltered.reduce((sum, sale) => sum + sale.amount, 0),
@@ -138,6 +110,34 @@ export default function SalesPage() {
       ></Table>
     );
   }, [salesFiltered]);
+
+  useEffect(() => {
+    getSales().then((sales) => {
+      setSales(sales);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (filterCriteria === undefined) return;
+    setActiveFilters((prevFilters) => ({
+      ...prevFilters,
+      currentDay: filterCriteria === "currentDay",
+      currentWeek: filterCriteria === "currentWeek",
+      currentMonth: filterCriteria === "currentMonth",
+    }));
+  }, [filterCriteria]);
+
+  useEffect(() => {
+    setActiveFilters((prevFilters) => ({
+      ...prevFilters,
+      ...filterCheckbox,
+    }));
+  }, [filterCheckbox]);
+
+  useEffect(() => {
+    setTitleResume(buildTitleResume(activeFilters, capitalizedMonth));
+    setTitleTable(buildTitleTable(activeFilters, capitalizedMonth));
+  }, [activeFilters]);
 
   return (
     <AppContext.Provider value={valueContext}>
