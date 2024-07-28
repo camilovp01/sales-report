@@ -27,11 +27,6 @@ export default function Filter({
   const keys = Object.keys(options);
 
   const handleClick = (option: string) => {
-    if (clickedElement === option) {
-      setClickedElement("");
-      changeFilter("");
-      return;
-    }
     setClickedElement(option);
     changeFilter(option);
   };

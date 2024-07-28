@@ -51,7 +51,7 @@ export default function SalesPage() {
   const [activeFilters, setActiveFilters] = useActiveFilters<Filters>({
     currentDay: false,
     currentWeek: false,
-    currentMonth: false,
+    currentMonth: true,
     terminalSales: false,
     linkSales: false,
     allSales: false,
