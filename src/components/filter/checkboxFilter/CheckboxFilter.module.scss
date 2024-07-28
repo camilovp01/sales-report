@@ -12,7 +12,8 @@
 .container {
   display: flex;
   justify-content: flex-end;
-  &__wrapper {
+  &-wrapper {
+    width: 100px;
     background: var(--white-color);
     display: flex;
     justify-content: flex-end;
@@ -88,4 +89,21 @@
       background-color: #f5a5aa;
     }
   }
+}
+
+.filter {
+  display: flex;
+  gap: 0.5rem;
+  &__item {
+    background-color: var(--white-color);
+    border-radius: 8px;
+    padding: 2px 4px;
+    font-size: var(--secondary-font-size);
+  }
+}
+
+.filter-container {
+  gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
 }
