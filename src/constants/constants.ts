@@ -41,6 +41,7 @@ export const HEADERS: Header[] = [
   {
     label: "Método de Pago",
     target: "paymentMethod",
+    secondTarget: "transactionReference",
     type: "paymentMethod",
     fieldToValidateIcon: "franchise",
   },
