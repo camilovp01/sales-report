@@ -63,6 +63,7 @@ export default function SalesPage() {
   const [filterCheckbox, setFilterCheckbox] = useState<object>({});
   const [titleResume, setTitleResume] = useState<string>("");
   const [titleTable, setTitleTable] = useState<string>("");
+  const [rangeDate, setRangeDate] = useState<string>("");
   const salesFiltered = useFilteredSales(sales, activeFilters);
   const IconWithTooltip = withTooltip(
     Info,
@@ -81,6 +82,27 @@ export default function SalesPage() {
     return formatClpSymbol(
       salesFiltered.reduce((sum, sale) => sum + sale.amount, 0),
     );
+  };
+
+  const getDateFromFilter = (): string => {
+    if (activeFilters.currentDay) {
+      return moment().format("DD [de] MMMM YYYY");
+    }
+    if (activeFilters.currentWeek) {
+      return (
+        moment().startOf("week").format("DD [de] MMMM YYYY") +
+        " - " +
+        moment().format("DD [de] MMMM YYYY")
+      );
+    }
+    if (activeFilters.currentMonth) {
+      return (
+        moment().startOf("month").format("DD [de] MMMM YYYY") +
+        " - " +
+        moment().endOf("month").format("DD [de] MMMM YYYY")
+      );
+    }
+    return "";
   };
 
   const showDetail = (sale: Sale) => {
@@ -137,6 +159,8 @@ export default function SalesPage() {
   useEffect(() => {
     setTitleResume(buildTitleResume(activeFilters, capitalizedMonth));
     setTitleTable(buildTitleTable(activeFilters, capitalizedMonth));
+    const newRangeDate = getDateFromFilter();
+    setRangeDate(newRangeDate);
   }, [activeFilters]);
 
   return (
@@ -150,6 +174,7 @@ export default function SalesPage() {
               >
                 {getBalance()}
               </p>
+              <span>{rangeDate}</span>
             </div>
           </Card>
         </div>

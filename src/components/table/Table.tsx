@@ -10,6 +10,7 @@ import styles from "./table.module.scss";
 export interface Header {
   label: string;
   target: string;
+  secondTarget?: string;
   type?: string;
   fieldToValidateIcon?: string;
   format?: (value: number) => string;
@@ -185,16 +186,23 @@ export default function Table({
                         key={`${index} ${header.label}`}
                         className={styles["table-container__table-data"]}
                       >
-                        <div style={{ display: "flex", gap: "1rem" }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "1rem",
+                            minWidth: " 120px",
+                          }}
+                        >
                           <span>
-                            {header?.fieldToValidateIcon
-                              ? renderIconSwitch(
-                                  item[header.target],
-                                  item[header?.fieldToValidateIcon],
-                                )
-                              : renderIconSwitch(item[header.target])}
+                            {header?.fieldToValidateIcon &&
+                              renderIconSwitch(
+                                item[header.target],
+                                item[header?.fieldToValidateIcon],
+                              )}
                           </span>
-                          {item[header.target]}
+                          {header?.secondTarget && item[header.target] !== "PSE"
+                            ? `**** ${item[header.secondTarget]}`
+                            : item[header.target]}
                         </div>
                       </td>
                     );
